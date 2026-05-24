@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ask-my-docs"
+version = "0.1.0"
+description = "Production Ask My Docs RAG with hybrid retrieval, reranking, and CI eval"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.27",
+    "pydantic>=2.6",
+    "pydantic-settings>=2.2",
+    "sentence-transformers>=2.6",
+    "rank-bm25>=0.2.2",
+    "numpy>=1.26",
+    "httpx>=0.27",
+    "python-multipart>=0.0.9",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "pytest-asyncio>=0.23", "ruff>=0.3"]
+
+[project.scripts]
+ask-docs-ingest = "ask_my_docs.cli:ingest_main"
+ask-docs-ask = "ask_my_docs.cli:ask_main"
+ask-docs-eval = "ask_my_docs.cli:eval_main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

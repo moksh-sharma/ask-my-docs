@@ -1,0 +1,6 @@
+{"id": "billing-invoice-day", "question": "When are invoices sent?", "expected_sources": ["billing_policy.md"], "reference_answer": "Invoices are sent on the 1st of each month."}
+{"id": "billing-late-payment", "question": "When can accounts be suspended for overdue invoices?", "expected_sources": ["billing_policy.md"], "reference_answer": "Accounts overdue by more than 45 days may be suspended."}
+{"id": "renewal-notice", "question": "How far in advance must renewals be requested?", "expected_sources": ["renewal_guide.md"], "reference_answer": "Renewals must be requested at least 30 days before expiry."}
+{"id": "auto-renewal-charge", "question": "When are auto-renewal customers charged?", "expected_sources": ["renewal_guide.md"], "reference_answer": "Auto-renewal customers are charged 7 days before expiry."}
+{"id": "password-length", "question": "What is the minimum password length?", "expected_sources": ["security_faq.md"], "reference_answer": "Passwords must be at least 12 characters."}
+{"id": "api-key-rotation", "question": "How often must API keys be rotated?", "expected_sources": ["security_faq.md"], "reference_answer": "API keys must be rotated every 180 days."}
