@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ask My Docs</title>
+  <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">◇</span>
+        <div>
+          <h1>Ask My Docs</h1>
+          <p class="subtitle">Hybrid RAG over your knowledge base</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span id="status-pill" class="pill pill-muted">Checking…</span>
+        <button id="ingest-btn" type="button" class="btn btn-secondary">
+          Rebuild index
+        </button>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="chat-panel">
+        <div id="messages" class="messages" role="log" aria-live="polite">
+          <div class="welcome">
+            <p>Ask a question about your indexed documents.</p>
+            <ul class="suggestions">
+              <li><button type="button" data-question="When are invoices sent?">When are invoices sent?</button></li>
+              <li>
+                <button type="button" data-question="How far in advance must renewals be requested?">
+                  How far in advance must renewals be requested?
+                </button>
+              </li>
+              <li>
+                <button type="button" data-question="What MFA options are supported?">
+                  What MFA options are supported?
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <form id="ask-form" class="ask-form">
+          <label class="sr-only" for="question-input">Your question</label>
+          <textarea id="question-input" rows="2" placeholder="Ask something about your docs…" required></textarea>
+          <button id="ask-btn" type="submit" class="btn btn-primary">Ask</button>
+        </form>
+      </section>
+
+      <aside class="sources-panel" aria-label="Sources and citations">
+        <h2>Sources</h2>
+        <p id="sources-empty" class="muted">Sources appear here after you ask a question.</p>
+        <div id="sources-list" class="sources-list" hidden></div>
+      </aside>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+  <script src="/assets/app.js" type="module"></script>
+</body>
+
+</html>

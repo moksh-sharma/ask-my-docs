@@ -2,10 +2,14 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from ask_my_docs.config import settings
 from ask_my_docs.models import AskRequest, AskResponse, IngestResult
 from ask_my_docs.pipeline import ask, ensure_index_built, ingest
+
+WEB_DIR = Path(__file__).resolve().parent.parent / "web"
 
 
 @asynccontextmanager
@@ -23,6 +27,13 @@ app = FastAPI(
     version="0.1.0",
     lifespan=lifespan,
 )
+
+app.mount("/assets", StaticFiles(directory=WEB_DIR), name="assets")
+
+
+@app.get("/")
+def index():
+    return FileResponse(WEB_DIR / "index.html")
 
 
 @app.get("/health")

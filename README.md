@@ -12,34 +12,34 @@ User question → hybrid retrieve (RRF) → cross-encoder rerank → LLM + citat
                          Golden-set eval gates deploy (GitHub Actions)
 ```
 
-## Quick start
+## Quick start (web UI)
 
 ```bash
 cd ask-my-docs
-python -m venv .venv && source .venv/bin/activate
+python3 -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 
-# Ingest sample docs and build index
+cp .env.example .env   # MOCK_LLM=true works without Ollama
+ask-docs-serve
+```
+
+Open **http://127.0.0.1:8000** in your browser. The UI will ingest `data/sample_docs` on first load; ask questions in the chat panel.
+
+If you moved the project folder, delete and recreate `.venv` so CLI entrypoints point at the correct Python path.
+
+## CLI (optional)
+
+```bash
 ask-docs-ingest --docs-dir data/sample_docs
-
-# Ask a question (uses MOCK_LLM without Ollama)
-export MOCK_LLM=true
 ask-docs-ask "When are invoices sent?"
-
-# Run evaluation suite (same gate as CI)
 ask-docs-eval
 ```
 
-### API server
+## API
 
-```bash
-export MOCK_LLM=true
-ask-docs-ingest
-uvicorn apps.api.main:app --reload --app-dir .
-```
+Endpoints (also used by the web UI):
 
-Endpoints:
-
+- `GET /` — web frontend
 - `GET /health`
 - `POST /ingest?docs_dir=data/sample_docs`
 - `POST /ask` — body: `{"question": "...", "include_debug": false}`
@@ -47,12 +47,9 @@ Endpoints:
 ### Ollama generation
 
 ```bash
-# Pull a model (once)
 ollama pull llama3.2
-
-cp .env.example .env
-export MOCK_LLM=false
-ask-docs-ask "How far in advance must renewals be requested?"
+# In .env set MOCK_LLM=false
+ask-docs-serve
 ```
 
 Configure via env: `OLLAMA_BASE_URL` (default `http://localhost:11434`), `OLLAMA_MODEL` (default `llama3.2`).
@@ -61,6 +58,8 @@ Configure via env: `OLLAMA_BASE_URL` (default `http://localhost:11434`), `OLLAMA
 
 | Path | Purpose |
 |------|---------|
+| `apps/web/` | Browser UI (HTML/CSS/JS) |
+| `apps/api/` | FastAPI server |
 | `src/ask_my_docs/ingest/` | Parsing, heading-aware chunking |
 | `src/ask_my_docs/index/` | Chunk store, BM25, embeddings |
 | `src/ask_my_docs/retrieval/` | Hybrid search, RRF, reranker |
@@ -85,7 +84,7 @@ Configure via env: `EVAL_RECALL_AT_K`, `EVAL_FAITHFULNESS_MIN`, `EVAL_CITATION_A
 ## Add your documents
 
 1. Place `.md` or `.txt` files in a directory.
-2. Run `ask-docs-ingest --docs-dir /path/to/docs`.
+2. Click **Rebuild index** in the UI (or run `ask-docs-ingest --docs-dir /path/to/docs`).
 3. Add cases to `data/golden_set.jsonl` with `expected_sources` filenames.
 4. Run `ask-docs-eval` before merging.
 

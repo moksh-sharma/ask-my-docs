@@ -27,6 +27,7 @@ dev = ["pytest>=8.0", "pytest-asyncio>=0.23", "ruff>=0.3"]
 ask-docs-ingest = "ask_my_docs.cli:ingest_main"
 ask-docs-ask = "ask_my_docs.cli:ask_main"
 ask-docs-eval = "ask_my_docs.cli:eval_main"
+ask-docs-serve = "ask_my_docs.cli:serve_main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -31,6 +31,18 @@ def ask_main() -> None:
     print(json.dumps(response.model_dump(), indent=2))
 
 
+def serve_main() -> None:
+    import uvicorn
+
+    uvicorn.run(
+        "apps.api.main:app",
+        host="127.0.0.1",
+        port=8000,
+        reload=True,
+        app_dir=".",
+    )
+
+
 def eval_main() -> None:
     parser = argparse.ArgumentParser(description="Run golden-set RAG evaluation")
     parser.add_argument(
